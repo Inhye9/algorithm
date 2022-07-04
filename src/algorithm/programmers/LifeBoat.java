@@ -6,7 +6,7 @@ public class LifeBoat {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        int[] people= {70,50,80,100};
+        int[] people= {70,50,80,101};
         int limit=100;
 
         Arrays.sort(people);
