@@ -26,14 +26,50 @@ public class n25330 {
 
         Collections.sort(clist, new Moncity());
 
-        int[][] dp = new int[N+1][K+1];
+        //solution1
+        /*int[][] dp = new int[N+1][K+1];
 
         for(int i=1; i<N+1; i++){
             for(int j=1; j<K+1; j++){
+                if(j<clist.get(i-1).A){
+                    dp[i][j]=Math.max(dp[i-1][j], dp[i][j]);
+                }else{
+                    if(clist.get(i-1).P+dp[i-1][j-clist.get(i-1).A]==dp[i-1][j]){
+                        dp[i][j]=Math.max(clist.get(i-1).P+dp[i-1][j-clist.get(i-1).A], dp[i-1][j]);
+                    }else{
+                        dp[i][j]=Math.max(clist.get(i-1).P+dp[i-1][j-clist.get(i-1).A], dp[i-1][j]);
+                    }
 
+                }
+            }
+        }*/
+
+        //solution2
+        int[][][] dp = new int[N+1][K+1][2]; //[0]:체력, [1]: 구한 주민의 수
+
+        for(int i=1; i<N+1; i++){
+            for(int j=1; j<K+1; j++) {
+                if (j < clist.get(i - 1).A) {
+                    dp[i][j][0] = dp[i - 1][j][1] > dp[i][j][1] ? dp[i - 1][j][0] : dp[i - 1][j][1] == dp[i][j][1] ? Math.min(dp[i - 1][j][0], dp[i][j][0]) : dp[i][j][0];
+                    dp[i][j][1] = dp[i - 1][j][1] > dp[i][j][1] ? dp[i - 1][j][1] : dp[i][j][1];
+                } else {
+                    if (clist.get(i - 1).P + dp[i - 1][j - clist.get(i - 1).A][1] == dp[i - 1][j][1]) {
+                        dp[i][j][0] = Math.min(clist.get(i - 1).A + dp[i - 1][j - clist.get(i - 1).A][0], dp[i - 1][j][0]);
+                        dp[i][j][1] = dp[i - 1][j][1];
+                    } else if (clist.get(i - 1).P + dp[i - 1][j - clist.get(i - 1).A][1] > dp[i - 1][j][1]) {
+                        dp[i][j][0] = clist.get(i - 1).A + dp[i - 1][j - clist.get(i - 1).A][0];
+                        dp[i][j][1] = clist.get(i - 1).P + dp[i - 1][j - clist.get(i - 1).A][1];
+                    } else {
+                        dp[i][j][0] = dp[i - 1][j][0];
+                        dp[i][j][1] = dp[i - 1][j][1];
+                    }
+
+                }
+                //System.out.println(dp[i][j][1]);
             }
         }
 
+        System.out.println(dp[N][K][1]);
     }
 }
 
