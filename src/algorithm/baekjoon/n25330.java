@@ -80,8 +80,8 @@ public class n25330 {
         //System.out.println(dp[N][K][1]);
 
 
-        //solution3 - 통과. backtracking-dfs
-        Moncity[] moncities=new Moncity[N+1];
+        //solution3 - 통과. backtracking-dfs. 메모리:14324KB, 시간: 152ms
+        /*Moncity[] moncities=new Moncity[N+1];
         for(int i=0; i<N; i++){
             moncities[i+1]=new Moncity(Integer.parseInt(s2[i]), Integer.parseInt(s3[i]));
         }
@@ -90,14 +90,42 @@ public class n25330 {
         for(int i=1; i<N+1; i++){
           dfs(moncities, visitied, 0, 0, 0);
         }
+        */
 
+
+        //solution4 - 통과. backtracking-dfs + arraylist. 메모리:15752KB, 시간: 200ms
+        List<Moncity> moncities=new ArrayList<>();
+        for(int i=0; i<N; i++){
+            moncities.add(new Moncity(Integer.parseInt(s2[i]), Integer.parseInt(s3[i])));
+        }
+
+        for(int i=0; i<N; i++){
+            dfsArrayList(moncities, 0, 0, 0);
+        }
         System.out.println(maxP);
 
     }
 
     static int maxP=0;
 
-    public static void dfs(Moncity[] moncities, boolean[] visited, int savedP, int usedA, int eachA){
+    //solution4
+    public static void dfsArrayList(List<Moncity> moncities, int savedP, int usedA, int eachA){
+        if(usedA<=K){
+            if(maxP<savedP) maxP=savedP;
+        }else{
+            return;
+        }
+        for(int i=0; i<moncities.size(); i++){
+            Moncity mon = moncities.get(i);
+            moncities.remove(i);
+            dfsArrayList(moncities, savedP+mon.P, usedA+eachA+mon.A, eachA+mon.A);
+            moncities.add(i, mon);
+        }
+    }
+
+
+    //solution3
+    /*public static void dfs(Moncity[] moncities, boolean[] visited, int savedP, int usedA, int eachA){
         if(usedA<=K){
             if(maxP<savedP) maxP=savedP;
         }else{
@@ -112,7 +140,7 @@ public class n25330 {
                 eachA-=moncities[i].A;
             }
         }
-    }
+    }*/
 
 }
 
