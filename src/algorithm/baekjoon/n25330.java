@@ -108,21 +108,6 @@ public class n25330 {
 
     static int maxP=0;
 
-    //solution4
-    public static void dfsArrayList(List<Moncity> moncities, int savedP, int usedA, int eachA){
-        if(usedA<=K){
-            if(maxP<savedP) maxP=savedP;
-        }else{
-            return;
-        }
-        for(int i=0; i<moncities.size(); i++){
-            Moncity mon = moncities.get(i);
-            moncities.remove(i);
-            dfsArrayList(moncities, savedP+mon.P, usedA+eachA+mon.A, eachA+mon.A);
-            moncities.add(i, mon);
-        }
-    }
-
 
     //solution3
     /*public static void dfs(Moncity[] moncities, boolean[] visited, int savedP, int usedA, int eachA){
@@ -142,6 +127,34 @@ public class n25330 {
         }
     }*/
 
+    //solution4
+    public static void dfsArrayList(List<Moncity> moncities, int savedP, int usedA, int eachA){
+        if(usedA<=K){
+            if(maxP<savedP) maxP=savedP;
+        }else{
+            return;
+        }
+        for(int i=0; i<moncities.size(); i++){
+            Moncity mon = moncities.get(i);
+            moncities.remove(i);
+            dfsArrayList(moncities, savedP+mon.P, usedA+eachA+mon.A, eachA+mon.A);
+            moncities.add(i, mon);
+        }
+    }
+}
+
+
+
+class Moncity {
+    int A;
+    int P;
+
+    Moncity(){}
+
+    Moncity(int A, int P){
+        this.A=A;
+        this.P=P;
+    }
 }
 
 /*
@@ -173,15 +186,3 @@ class Moncity implements Comparator<Moncity> {
     }
 }
 */
-
-class Moncity {
-    int A;
-    int P;
-
-    Moncity(){}
-
-    Moncity(int A, int P){
-        this.A=A;
-        this.P=P;
-    }
-}
