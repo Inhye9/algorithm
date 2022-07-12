@@ -9,6 +9,11 @@ import java.util.Comparator;
 import java.util.List;
 
 public class n25330 {
+    //solution3, solution4
+    static int N;
+    //solution3, solution4
+    static int K;
+
     public static void main(String[] args) throws IOException {
         // TODO Auto-generated method stub
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,17 +21,20 @@ public class n25330 {
         String[] s2 = br.readLine().split(" ");
         String[] s3 = br.readLine().split(" ");
 
-        int N=Integer.parseInt(s1[0]);
-        int K=Integer.parseInt(s1[1]);
+        //int N=Integer.parseInt(s1[0]);
+        //int K=Integer.parseInt(s1[1]);
 
-        List<Moncity> clist=new ArrayList<Moncity>();
+        N=Integer.parseInt(s1[0]);
+        K=Integer.parseInt(s1[1]);
+
+       /* List<Moncity> clist=new ArrayList<Moncity>();
         for(int i=0; i<N; i++){
             clist.add(new Moncity(Integer.parseInt(s2[i]), Integer.parseInt(s3[i])));
         }
 
-        Collections.sort(clist, new Moncity());
+        Collections.sort(clist, new Moncity());*/
 
-        //solution1
+        //solution1 - 틀렸습니다.
         /*int[][] dp = new int[N+1][K+1];
 
         for(int i=1; i<N+1; i++){
@@ -44,8 +52,8 @@ public class n25330 {
             }
         }*/
 
-        //solution2
-        int[][][] dp = new int[N+1][K+1][2]; //[0]:체력, [1]: 구한 주민의 수
+        //solution2 - 틀렸습니다.
+        /*int[][][] dp = new int[N+1][K+1][2]; //[0]:체력, [1]: 구한 주민의 수
 
         for(int i=1; i<N+1; i++){
             for(int j=1; j<K+1; j++) {
@@ -67,12 +75,48 @@ public class n25330 {
                 }
                 //System.out.println(dp[i][j][1]);
             }
+        }*/
+
+        //System.out.println(dp[N][K][1]);
+
+
+        //solution3 - 통과. backtracking-dfs
+        Moncity[] moncities=new Moncity[N+1];
+        for(int i=0; i<N; i++){
+            moncities[i+1]=new Moncity(Integer.parseInt(s2[i]), Integer.parseInt(s3[i]));
         }
 
-        System.out.println(dp[N][K][1]);
+        boolean[] visitied=new boolean[N+1];
+        for(int i=1; i<N+1; i++){
+          dfs(moncities, visitied, 0, 0, 0);
+        }
+
+        System.out.println(maxP);
+
     }
+
+    static int maxP=0;
+
+    public static void dfs(Moncity[] moncities, boolean[] visited, int savedP, int usedA, int eachA){
+        if(usedA<=K){
+            if(maxP<savedP) maxP=savedP;
+        }else{
+            return;
+        }
+        for(int i=1; i<N+1; i++){
+            if(!visited[i]){
+                visited[i]=true;
+                eachA+=moncities[i].A;
+                dfs(moncities, visited, savedP+moncities[i].P, usedA+eachA, eachA);
+                visited[i]=false;
+                eachA-=moncities[i].A;
+            }
+        }
+    }
+
 }
 
+/*
 class Moncity implements Comparator<Moncity> {
     int A;
     int P;
@@ -98,5 +142,18 @@ class Moncity implements Comparator<Moncity> {
             }
         }
         return 0;
+    }
+}
+*/
+
+class Moncity {
+    int A;
+    int P;
+
+    Moncity(){}
+
+    Moncity(int A, int P){
+        this.A=A;
+        this.P=P;
     }
 }
