@@ -109,7 +109,30 @@ public class n25332 {
 
         }*/
 
-        //System.out.println(cnt);
 
+        //solution 6 -시간초과
+        int[] mList=new int[N+1];
+
+        for(int i=1; i<N+1; i++){
+            mList[i]=A[i]-B[i];
+        }
+
+        int str=1, end=1;
+        int cnt=0, sum=0;
+        for(;;){
+            if(end>N){
+                str++;
+                end=str;
+                sum=0;
+
+                if(str>N) break;
+            }
+            sum+=mList[end];
+
+            if(sum==0) cnt++;
+            end++;
+        }
+
+        System.out.println(cnt);
     }
 }
