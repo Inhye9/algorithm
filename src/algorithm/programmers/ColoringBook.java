@@ -2,6 +2,10 @@ package algorithm.programmers;
 
 import java.util.HashSet;
 
+
+/*
+ 1. DFS 재귀 방식으로 풀이
+ */
 public class ColoringBook {
     public static void main(String[] args) {
         int[][] p={{1, 1, 1, 0}, {1, 2, 2, 0}, {1, 0, 0, 1}, {0, 0, 0, 1}, {0, 0, 0, 3}, {0, 0, 0, 3}};
